@@ -53,3 +53,7 @@ def fetch_multiple_stocks(tickers):
     """
     create_data_dir()
     for ticker in tqdm(tickers):
+        df = fetch_stock_data(ticker)
+        if df is not None:
+            save_data(df, ticker)
+
