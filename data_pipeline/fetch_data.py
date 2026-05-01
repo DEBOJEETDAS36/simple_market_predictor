@@ -57,3 +57,8 @@ def fetch_multiple_stocks(tickers):
         if df is not None:
             save_data(df, ticker)
 
+if __name__ == "__main__":
+    # List of stock tickers to fetch
+    tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "RELIANCE.NS", "TCS.NS", "INFY.NS"]
+    
+    fetch_multiple_stocks(tickers)
