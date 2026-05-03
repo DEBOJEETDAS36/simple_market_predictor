@@ -10,3 +10,7 @@ def create_processed_path():
     if not os.path.exists(PROCESSED_DATA_PATH):
         os.makedirs(PROCESSED_DATA_PATH)
 
+def compute_returns(df):
+    """Compute daily returns."""
+    df['returns'] = df['price'].pct_change()
+    return df
