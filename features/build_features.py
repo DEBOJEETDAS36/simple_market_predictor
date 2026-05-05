@@ -20,3 +20,9 @@ def compute_moving_averages(df):
      df["sma_10"] = df["close"].rolling(window=10).mean()
      df["sma_50"] = df["close"].rolling(window=50).mean()
      return df
+
+def compute_volatility(df):
+    """Rolling volatility."""
+    df["volatility"] = df["returns"].rolling(window=10).std()
+    return df
+
