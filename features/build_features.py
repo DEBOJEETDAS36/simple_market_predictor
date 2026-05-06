@@ -42,3 +42,9 @@ def compute_momentum(df):
     df["momentum"] = df["close"] - df["close"].shift(10)
     return df
 
+def clean_data(df):
+    """Drop NaNs after feature creation"""
+    df = df.dropna()
+    return df
+
+
