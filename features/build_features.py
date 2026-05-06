@@ -37,3 +37,8 @@ def compute_rsi(df, window=14):
     df["rsi"] = 100 - (100 / (1 + rs))
     return df
 
+def compute_momentum(df):
+    """Simple momentum"""
+    df["momentum"] = df["close"] - df["close"].shift(10)
+    return df
+
