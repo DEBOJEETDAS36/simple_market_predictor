@@ -26,3 +26,14 @@ def compute_volatility(df):
     df["volatility"] = df["returns"].rolling(window=10).std()
     return df
 
+def compute_rsi(df, window=14):
+    """
+    Compute RSI (Relative Strength Index)
+    """
+    delta = df["close"].diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+    rs = gain / loss
+    df["rsi"] = 100 - (100 / (1 + rs))
+    return df
+
