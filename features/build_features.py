@@ -47,4 +47,16 @@ def clean_data(df):
     df = df.dropna()
     return df
 
+def process_single_file(file_path):
+    df = pd.read_csv(file_path)
+    df = compute_returns(df)
+    df = compute_moving_averages(df)
+    df = compute_volatility(df)
+    df = compute_rsi(df)
+    df = compute_momentum(df)
+
+    df = clean_data(df)
+
+    return df
+
 
