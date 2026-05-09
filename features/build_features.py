@@ -59,4 +59,17 @@ def process_single_file(file_path):
 
     return df
 
+def process_all_stocks():
+    create_processed_path()
+
+    files = glob(os.path.join(RAW_DATA_PATH, "*.csv"))
+
+    for file in files:
+        df = process_single_file(file)
+
+        ticker = os.path.basename(file).replace(".csv", "")
+        output_path = os.path.join(PROCESSED_DATA_PATH, f"{ticker}.csv")
+
+        df.to_csv(output_path, index=False)
+        print(f"[INFO] Processed {ticker}")
 
