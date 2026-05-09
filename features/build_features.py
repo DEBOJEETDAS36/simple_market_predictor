@@ -1,54 +1,77 @@
-import numpy as np
 import pandas as pd
+import numpy as np
 import os
 from glob import glob
 
 RAW_DATA_PATH = "data/raw"
 PROCESSED_DATA_PATH = "data/processed"
 
-def create_processed_path():
+
+def create_processed_dir():
     if not os.path.exists(PROCESSED_DATA_PATH):
         os.makedirs(PROCESSED_DATA_PATH)
 
+
 def compute_returns(df):
     """Compute daily returns."""
-    df['returns'] = df['price'].pct_change()
+    df["returns"] = df["Close"].pct_change()
     return df
 
+
 def compute_moving_averages(df):
-     """Compute SMA indicators."""
-     df["sma_10"] = df["close"].rolling(window=10).mean()
-     df["sma_50"] = df["close"].rolling(window=50).mean()
-     return df
+    """Compute SMA indicators."""
+    df["sma_10"] = df["Close"].rolling(window=10).mean()
+    df["sma_50"] = df["Close"].rolling(window=50).mean()
+    return df
+
 
 def compute_volatility(df):
     """Rolling volatility."""
     df["volatility"] = df["returns"].rolling(window=10).std()
     return df
 
+
 def compute_rsi(df, window=14):
     """
     Compute RSI (Relative Strength Index)
     """
-    delta = df["close"].diff()
+    delta = df["Close"].diff()
+
     gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+
     rs = gain / loss
     df["rsi"] = 100 - (100 / (1 + rs))
+
     return df
+
 
 def compute_momentum(df):
     """Simple momentum"""
-    df["momentum"] = df["close"] - df["close"].shift(10)
+    df["momentum"] = df["Close"] - df["Close"].shift(10)
     return df
+
 
 def clean_data(df):
     """Drop NaNs after feature creation"""
     df = df.dropna()
     return df
 
+
 def process_single_file(file_path):
+    """
+    Process one stock file into features.
+    """
     df = pd.read_csv(file_path)
+
+    # 1. Clean column names (removes hidden spaces like "Close ")
+    df.columns = df.columns.str.strip()
+
+    # 2. Convert 'Close' to numeric. 
+    # .replace removes commas or dollar signs if they exist
+    # errors='coerce' turns non-numeric values into NaN so it won't crash
+    df["Close"] = pd.to_numeric(df["Close"].replace(r'[$,]', '', regex=True), errors='coerce')
+
     df = compute_returns(df)
     df = compute_moving_averages(df)
     df = compute_volatility(df)
@@ -59,8 +82,9 @@ def process_single_file(file_path):
 
     return df
 
+
 def process_all_stocks():
-    create_processed_path()
+    create_processed_dir()
 
     files = glob(os.path.join(RAW_DATA_PATH, "*.csv"))
 
@@ -72,6 +96,7 @@ def process_all_stocks():
 
         df.to_csv(output_path, index=False)
         print(f"[INFO] Processed {ticker}")
+
 
 if __name__ == "__main__":
     process_all_stocks()
