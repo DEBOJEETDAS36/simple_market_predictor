@@ -73,3 +73,5 @@ def process_all_stocks():
         df.to_csv(output_path, index=False)
         print(f"[INFO] Processed {ticker}")
 
+if __name__ == "__main__":
+    process_all_stocks()
