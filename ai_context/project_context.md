@@ -23,3 +23,25 @@ Each ticker has its own CSV file in data/raw/
 ## Next Step
 
 Feature engineering module will transform raw data into model-ready features.
+
+## Day 2 Update
+
+### New Module
+
+features/build_features.py
+
+### Features Available
+
+* returns
+* RSI
+* moving averages
+* volatility
+* momentum
+
+### Data Flow Now
+
+Raw Data → Features → (next: models)
+
+### Next Step
+
+Train ML models on processed dataset.
