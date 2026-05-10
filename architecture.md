@@ -19,3 +19,14 @@
 * ML models
 * Sentiment analysis
 * Backtesting
+
+## Feature Layer (Added)
+
+Transforms raw data into:
+
+* returns
+* RSI
+* moving averages
+* volatility
+
+This layer feeds into ML models.
