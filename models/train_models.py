@@ -28,3 +28,13 @@ def create_target(df):
 
     return df
 
+def train_test_split_time_series(df, split_ratio=0.8):
+    """
+    Time-series aware split.
+    No shuffling.
+    """
+    split_ratio = int(len(df) * split_ratio)
+    train_df = df.iloc[:split_ratio]
+    test_df = df.iloc[split_ratio:]
+
+    return train_df, test_df
