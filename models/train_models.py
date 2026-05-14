@@ -38,3 +38,17 @@ def train_test_split_time_series(df, split_ratio=0.8):
     test_df = df.iloc[split_ratio:]
 
     return train_df, test_df
+
+def train_model(X_train, y_train):
+    """
+    Train XGBoost classifier
+    """
+    model = XGBClassifier(
+        n_estimators=100,
+        max_depth=4,
+        learning_rate=0.1,
+        random_state=42
+    )
+    model.fit(X_train, y_train)
+    
+    return model
