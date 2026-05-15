@@ -49,6 +49,21 @@ def train_model(X_train, y_train):
         learning_rate=0.1,
         random_state=42
     )
-    model.fit(X_train, y_train)
     
+    model.fit(X_train, y_train)
+
     return model
+
+def evaluate_model(model, X_test, y_test):
+    """
+    Evaluate model performance.
+    """
+    predictions = model.predict(X_test)
+
+    acc = accuracy_score(y_test, predictions)
+
+    print("\n===== MODEL PERFORMANCE =====")
+    print(f"Accuracy: {acc:.4f}")
+
+    print("\nClassification Report:")
+    print(classification_report(y_test, predictions))
