@@ -67,3 +67,16 @@ def evaluate_model(model, X_test, y_test):
 
     print("\nClassification Report:")
     print(classification_report(y_test, predictions))
+
+def save_model(model, model_name="xgboost_model.pkl"):
+    """
+    Save the trained model.
+    """
+    if not os.path.exists(MODEL_SAVE_PATH):
+        os.makedirs(MODEL_SAVE_PATH)
+
+    path = os.path.join(MODEL_SAVE_PATH, model_name)
+
+    joblib.dump(model, path)
+
+    print(f"\n[INFO] Model saved to {path}")
